@@ -45,7 +45,6 @@ const { help, bahasa, donasi, limitcount, bottt, listsurah } = require('./lib/he
 const hx = require('./lib/downloadig2.js');
 const ig = require("./lib/index.js");
 const todapi = require("./lib/testapi.js");
-const scrapper = require('./lib/scrapper')
 		
 // stickwm
 const Exif = require('./lib/exif');
