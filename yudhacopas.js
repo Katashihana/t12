@@ -4,7 +4,6 @@ const fs = require("fs-extra")
 const figlet = require('figlet')
 const { uncache, nocache } = require('./lib/loader')
 const setting = JSON.parse(fs.readFileSync('./setting.json'))
-const brightcolor  = require('colors');
 const encodeUrl = require('encodeurl')
 const chalk = require('chalk')
 const welkom = JSON.parse(fs.readFileSync('./database/welkom.json'))
