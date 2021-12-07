@@ -1,20 +1,4 @@
-const
-	{
-		WAConnection: _WAConnection,
-		MessageType,
-		Presence,
-		MessageOptions,
-		Mimetype,
-		WALocationMessage,
-		WA_MESSAGE_STUB_TYPES,
-		WA_DEFAULT_EPHEMERAL,
-		ReconnectMode,
-		ProxyAgent,
-		GroupSettingChange,
-		waChatKey,
-		mentionedJid,
-		processTime,
-	} = require("@adiwajshing/baileys")
+const { WAConnection, Browsers, MessageType, Presence, Mimetype, GroupSettingChange, } = require('@adiwajshing/baileys')
 const { color, bgcolor } = require('./lib/color')
 const fs = require("fs-extra")
 const figlet = require('figlet')
