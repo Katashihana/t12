@@ -45,6 +45,8 @@ const { help, bahasa, donasi, limitcount, bottt, listsurah } = require('./lib/he
 const hx = require('./lib/downloadig2.js');
 const ig = require("./lib/index.js");
 const todapi = require("./lib/testapi.js");
+const { recognize } = require('./lib/ocr')
+const { fbdl } = require("./lib/fbdl");
 		
 // stickwm
 const Exif = require('./lib/exif');
@@ -83,6 +85,7 @@ const { pShadow,
 
 autorespon = false
 var kuis = false
+antidel = false
 hit_today = []
 ky_ttt = []
 const setGelud = require('./lib/gameGelud.js')
@@ -886,6 +889,7 @@ dha.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 }
 
         case 'menu2':
+        case 'allmenu':
         case 'help2':
         if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
@@ -963,6 +967,15 @@ dha.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 │◦➛* ${prefix}slot*
 │◦➛* ${prefix}tictactoe* _@tag_
 │◦➛* ${prefix}suit* _batu/kertas/gunting_
+│◦➛* ${prefix}caklontong
+│◦➛* ${prefix}tebakgambar
+│◦➛* ${prefix}kimiakuis
+│◦➛* ${prefix}tebakjenaka
+│◦➛* ${prefix}tebaklirik
+│◦➛* ${prefix}asahotak
+│◦➛* ${prefix}susunkata
+│◦➛* ${prefix}tebakbendera
+│◦➛* ${prefix}tebakbendera
 │
 ├──❏「 ISLAM 」 
 │◦➛* ${prefix}kisahnabi*
@@ -974,7 +987,7 @@ dha.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 │◦➛* ${prefix}ayataudio <query>*
 │
 ├──❏「 DOWMLOAD 」 
-│◦➛* ${prefix}fbdl*
+│◦➛* ${prefix}fb*
 │◦➛* ${prefix}igdl*
 │◦➛* ${prefix}twitter*
 │◦➛* ${prefix}tiktok*
@@ -1143,9 +1156,6 @@ dha.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
 ├──❏「 MAGER NULIS 」
 │◦➛* ${prefix}nulis
 │
-├──❏「 GAME 」
-│◦➛* ${prefix}CAKLONTONG
-│◦➛* ${prefix}TEBAKGAMBAR
 │
 ├──❏「 ADD 」
 │
@@ -1421,7 +1431,7 @@ dha.sendMessage(id, buttonMessages, MessageType.buttonsMessage, options)
         get_result = await fetchJson(`https://vaksincovid19-api.vercel.app/api/vaksin`)
                     Total = `Total Sasaran : ${get_result.totalsasaran}`
 
-        kopid2 = await fetchJson(`https://api.dapuhy.ga/api/others/corona?negara=indonesia&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+        kopid2 = await fetchJson(`https://api.dapuhy.ga/api/others/corona?negara=indonesia&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
         kopid3 = kopid2
         id2 = `Lokasi: *INDONESIA*`
         Kasus = `Positif: *${kopid3.kasus}*`
@@ -2001,7 +2011,7 @@ teks += `\`\`\`き⃟🦈 Title : ${get_result[i].title}\`\`\`
      case 'stalkig':
                     if (args.length == 0) return reply(`Example: ${prefix + command} jessnolimit`)
                     username = args[0]
-                    ini_result = await fetchJson(`https://api.dapuhy.ga/api/socialmedia/igstalk?username=${username}&apikey=r5CjdUOuSHvrbjg`)
+                    ini_result = await fetchJson(`https://api.dapuhy.ga/api/socialmedia/igstalk?username=${username}&apikey=Pkjf7IBi2md7UAK`)
                     ini_result = ini_result.result
                     ini_buffer = await getBuffer(ini_result.profilePic)
                     ini_txt = `Username : ${ini_result.username}\n`
@@ -3689,7 +3699,7 @@ case 'Ppcouple': //By katashi
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 reply(mess.wait)
-anu = await fetchJson(`https://api.dapuhy.ga/api/randomimage/couple?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+anu = await fetchJson(`https://api.dapuhy.ga/api/randomimage/couple?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 image1 = await getBuffer(anu.result.pria)
 image2 = await getBuffer(anu.result.wanita)
 dha.sendMessage(from, image1, image, {quoted: mek })
@@ -3740,7 +3750,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Link nya?`)
                     query = args.join(" ")	
-anu = await fetchJson(`https://api.dapuhy.ga/api/others/cuttly?url=${query}&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+anu = await fetchJson(`https://api.dapuhy.ga/api/others/cuttly?url=${query}&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 teks = `${anu.result}`
 dha.sendMessage(from, teks, text, {quoted: mek})
 break
@@ -3957,7 +3967,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} pubg`)
                     query = args.join(" ")
-					data = await fetchJson(`https://api.dapuhy.ga/api/search/palingmurah?query=${query}&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/search/palingmurah?query=${query}&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'PALING MURAH\n'
 					for (let i of data.result) {
 						teks += `*Title:* : ${i.title}\n*Url* : ${i.url}\n*Keterangan* : ${i.desc}\n*Price* : ${i.price}\n\nPalingmurah\n`
@@ -3973,7 +3983,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} pubg`)
                     query = args.join(" ")
-					data = await fetchJson(`https://api.dapuhy.ga/api/search/sfile?query=${query}&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/search/sfile?query=${query}&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'SFILE SEARCH\n'
 					for (let i of data.result) {
 						teks += `*Title:* : ${i.title}\n*Url* : ${i.url}\n*IMAGE* : ${i.thumb}\n\nSFILE SEARCH\n`
@@ -3985,7 +3995,7 @@ case 'Tokohindo': // Update By KATASHI
 case 'tokohindo': // Update By KATASHI
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://api.dapuhy.ga/api/others/tokohindo?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/others/tokohindo?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'TOKOH INDO\n'
 					for (let x of data.result) {
 						teks += `*Nama:* : ${x.nama}\n*Asal* : ${x.asal}\n*Nama Asli* : ${x.nama2}\n*Asal* : ${x.asal}\n*Lahir* : ${x.lahir}\n*Gugur* : ${x.gugur}\n*Usia* : ${x.usia}\n*Lokasi Makam* : ${x.lokasimakam}\n*History* : ${x.history}\n\nTOKOH INDO\n`
@@ -3997,7 +4007,7 @@ case 'kompastv': // Update By KATASHI
 case 'Kompastv': // Update By KATASHI
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://api.dapuhy.ga/api/berita/kompas?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/berita/kompas?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'KOMPAS TV\n'
 					for (let x of data.result) {
 						teks += `*Title:* : ${x.title}\n*Link* : ${x.url}\n*Jenis* : ${x.jenis}\n*Upload* : ${x.upload}\n\nKOMPAS TV\n`
@@ -4011,7 +4021,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} pubg`)
                     query = args.join(" ")
-					data = await fetchJson(`https://api.dapuhy.ga/api/anime/animeindo?query=${query}&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/anime/animeindo?query=${query}&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'ANIMEiNDO\n'
 					for (let x of data.result) {
 						teks += `*Title:* : ${x.title}\n*Url* : ${x.url}\n*Image* : ${x.thumb}\n*Durasi* : ${x.duration}\n*Release* : ${x.release}\n*Description* : ${x.desc}\n\nANIMEINDO\n`
@@ -4026,7 +4036,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Example: ${prefix + command} milf`)
                     query = args.join(" ")
-					data = await fetchJson(`https://api.dapuhy.ga/api/search/javhdporn?query=${query}&apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/search/javhdporn?query=${query}&apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'JAV PORN\n'
 					for (let x of data.result) {
 						teks += `*Title:* : ${x.title}\n*Url* : ${x.url}\n*Image* : ${x.thumb}\n*Durasi* : ${x.duration}\n*Viewers* : ${x.viewers}\n*Quality* : ${x.quality}\n\nJAV PORN\n`
@@ -4048,7 +4058,7 @@ case 'cnn': // Update By KATASHI
 case 'Cnn': // Update By KATASHI
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://api.dapuhy.ga/api/berita/cnn?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/berita/cnn?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'CNN NEWS\n'
 					for (let i of data.result) {
 						teks += `*Title:* : ${i.title}\n*Link:* ${i.url}*Upload:* ${i.upload}\n\nCNN NEWS\n`
@@ -4060,7 +4070,7 @@ case 'wirid': // Update By KATASHI
 case 'Wirid': // Update By KATASHI
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://api.dapuhy.ga/api/islam/wirid?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/islam/wirid?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'DOA WIRID\n'
 					for (let i of data.result) {
 						teks += `*Id:* : ${i.id}\n*Arab:* ${i.times}*Latin:* ${i.arabic}\n\nDOA WIRID\n`
@@ -4072,7 +4082,7 @@ case 'tahlil': // Update By KATASHI
 case 'Tahlil': // Update By KATASHI
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-					data = await fetchJson(`https://api.dapuhy.ga/api/islam/tahlil?apikey=r5CjdUOuSHvrbjg`, {method: 'get'})
+					data = await fetchJson(`https://api.dapuhy.ga/api/islam/tahlil?apikey=Pkjf7IBi2md7UAK`, {method: 'get'})
 					teks = 'DOA TAHLIL\n'
 					for (let i of data.result) {
 						teks += `*Id:* : ${i.id}\n*Title:* ${i.title}*Latin:* ${i.arabic}\n\nTAHLIL\n`
@@ -4111,7 +4121,7 @@ case 'Bts':
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
                 reply(mess.wait)
-                ya = await getBuffer(`https://api.dapuhy.ga/api/randomimage/batues?apikey=r5CjdUOuSHvrbjg`)
+                ya = await getBuffer(`https://api.dapuhy.ga/api/randomimage/batues?apikey=Pkjf7IBi2md7UAK`)
                 dha.sendMessage(from, ya, image, {quoted: mek})
                 break    
 case 'blackpink':
@@ -4119,7 +4129,7 @@ case 'Blackpink':
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
                 reply(mess.wait)
-                yo = await getBuffer(`https://api.dapuhy.ga/api/randomimage/blekpink?apikey=r5CjdUOuSHvrbjg`)
+                yo = await getBuffer(`https://api.dapuhy.ga/api/randomimage/blekpink?apikey=Pkjf7IBi2md7UAK`)
                 dha.sendMessage(from, yo, image, {quoted: mek})
                 break    
                 case 'groupinfo':
@@ -4197,7 +4207,7 @@ if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 if (args.length == 0) return reply(`Link nya?`)
                     query = args.join(" ")	
-x = await fetchJson(`https://api.dapuhy.ga/api/socialmedia/ttdownloader?url=${query}&apikey=r5CjdUOuSHvrbjg`)
+x = await fetchJson(`https://api.dapuhy.ga/api/socialmedia/ttdownloader?url=${query}&apikey=Pkjf7IBi2md7UAK`)
 reply(mess.wait)
 vid = await getBuffer(x.result.nowm)
 au = await getBuffer(x.result.audio)
@@ -4237,7 +4247,7 @@ case 'storyanime':
 case 'storyanime':	
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
-x = await getBuffer(`https://api.dapuhy.ga/api/anime/storyanime?apikey=r5CjdUOuSHvrbjg`)
+x = await getBuffer(`https://api.dapuhy.ga/api/anime/storyanime?apikey=Pkjf7IBi2md7UAK`)
 reply(mess.wait)
 dha.sendMessage(from, x, video, {quoted: mek})
 break
@@ -5575,7 +5585,7 @@ case 'santuy':
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupansantuy?apikey=r5CjdUOuSHvrbjg`)
+                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupansantuy?apikey=Pkjf7IBi2md7UAK`)
                     await dha.sendMessage(from, get_result, video, { quoted: mek, mimetype: Mimetype.mp4, filename: "asupan.mp4" })
                     break
 
@@ -5583,7 +5593,7 @@ case 'ukhty':
 if (isBanned) return reply(`Lu udh di ban kontol`)
 					        if (!isGroup) return reply(mess.only.group);
 reply(mess.wait)
-                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanukhty?apikey=r5CjdUOuSHvrbjg`)
+                    get_result = await getBuffer(`https://api.dapuhy.ga/api/asupan/asupanukhty?apikey=Pkjf7IBi2md7UAK`)
                     await dha.sendMessage(from, get_result, video, { quoted: mek, mimetype: Mimetype.mp4, filename: "asupan.mp4" })
                     break
 case 'vietnam':
@@ -6194,27 +6204,6 @@ if (args.length == 0) return reply(`Example: ${prefix + command} bekasi`)
 					}
 					reply(teks.trim())
 					    break
-case 'alquran':
-if (isBanned) return reply(`Lu udh di ban kontol`)
-					        if (!isGroup) return reply(mess.only.group);
-                    if (args.length < 1) return reply(`Example: ${prefix + command} 18 or ${prefix + command} 18/10 or ${prefix + command} 18/1-10`)
-                    urls = `https://api.lolhuman.xyz/api/quran/${args[0]}?apikey=PinnBotWibu`
-                    quran = await fetchJson(urls)
-                    result = quran.result
-                    ayat = result.ayat
-                    ini_txt = `QS. ${result.surah} : 1-${ayat.length}\n\n`
-                    for (var x of ayat) {
-                        arab = x.arab
-                        nomor = x.ayat
-                        latin = x.latin
-                        indo = x.indonesia
-                        ini_txt += `${arab}\n${nomor}. ${latin}\n${indo}\n\n`
-                    }
-                    ini_txt = ini_txt.replace(/<u>/g, "").replace(/<\/u>/g, "")
-                    ini_txt = ini_txt.replace(/<strong>/g, "").replace(/<\/strong>/g, "")
-                    ini_txt = ini_txt.replace(/<u>/g, "").replace(/<\/u>/g, "")
-                    reply(ini_txt)
-                    break
 case 'nhentai':
                     if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
                     henid = args[0]
@@ -6422,25 +6411,6 @@ case 'santet':
                     teks = `Santet terkirim ke ${target2}, Dengan alasan${alasan2}\n\nJenis Santet Yang di Terima Korban adalah *${terima1}*`
               mentions(teks, true)
                     break
-case "igstalk":
-      case "Igstalk":
-        if (!q) return fakegroup("Usernamenya?");
-        reply(mess.wait)
-        ig.fetchUser(`${args.join(" ")}`).then((Y) => {
-          console.log(`${args.join(" ")}`);
-          ten =`${Y.profile_pic_url_hd}`;
-          teks = `*ID* : ${Y.profile_id}\n*Username* : ${args.join(
-            ""
-          )}\n*Full Name* : ${Y.full_name}\n*Bio* : ${
-            Y.biography
-          }\n*Followers* : ${Y.followers}\n*Following* : ${
-            Y.following
-          }\n*Private* : ${Y.is_private}\n*Verified* : ${
-            Y.is_verified
-          }\n\n*Link* : https://instagram.com/${args.join("")}`;
-          sendMediaURL(from, ten, teks);
-        });
-        break;
         case 'randomporn':
               case 'randomporn':
               case 'randomporn':
@@ -6496,9 +6466,9 @@ case 'unban':
 case 'tebakgambar':
 if (!isGroup) return reply(mess.only.group);
 if (tebakgambar.hasOwnProperty(sender.split('@')[0])) return reply("Selesein yg sebelumnya dulu atuh")
-  get_result = await fetchJson(`https://zenzapi.xyz/api/tebakgambar?apikey=Katashi`)
+  get_result = await fetchJson(`https://katashi-docs.herokuapp.com/api/game/tebakgambar2?apikey=Katashi`)
 get_result = get_result.result
-ini_image = get_result.image
+ini_image = get_result.images
 jawaban = get_result.jawaban
 ini_buffer = await getBuffer(ini_image)
 kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
@@ -6527,7 +6497,7 @@ break
        case 'caklontong':
        if (!isGroup) return reply(mess.only.group);
               if (caklontong.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
-              get_result = await fetchJson(`https://zenzapi.xyz/api/caklontong?apikey=Katashi`)
+              get_result = await fetchJson(`https://katashi-docs.herokuapp.com/api/game/caklontong2?apikey=Katashi`)
               get_result = get_result.result
               jawaban = get_result.jawaban
               kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
@@ -6542,6 +6512,118 @@ break
               reply("Jawaban: " + jawaban)
               delete caklontong[sender.split('@')[0]]
               fs.writeFileSync("./database/caklontong.json", JSON.stringify(caklontong))
+}
+              break
+case 'kimiakuis':
+if (!isGroup) return reply(mess.only.group);
+              if (tebakimia.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://api-yogipw.herokuapp.com/api/kuis/tebakkimia`)
+              jawaban = get_result.lambang
+              pertanyaan = get_result.nama
+              dha.sendMessage(from, '*+* ```Tebak Kimia```\n\n• *Soal* :'+pertanyaan+'\n• *Waktu :* 30s', text, { quoted: mek}).then(() => {
+              tebakimia[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/tebakimia.json", JSON.stringify(tebakimia))
+})
+              await sleep(30000)
+              if (tebakimia.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete tebakimia[sender.split('@')[0]]
+              fs.writeFileSync("./database/tebakimia.json", JSON.stringify(tebakimia))
+}
+              break
+       case 'tebakbendera':
+       if (!isGroup) return reply(mess.only.group);
+              if (tebakbendera.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://api-yogipw.herokuapp.com/api/kuis/tebakbendera`)
+              jawaban = get_result.nama
+              kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+              pertanyaan = get_result.bendera
+              dha.sendMessage(from, '*+* ```Tebak Bendera```\n\n• *Bendera* :'+pertanyaan+'\n• *kisi²* :'+kisi_kisi, text, { quoted: mek}).then(() => {
+              tebakbendera[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/tebakbendera.json", JSON.stringify(tebakbendera))
+})
+              await sleep(30000)
+              if (tebakbendera.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete tebakbendera[sender.split('@')[0]]
+              fs.writeFileSync("./database/tebakbendera.json", JSON.stringify(tebakbendera))
+}
+              break
+case 'asahotak':
+if (!isGroup) return reply(mess.only.group);
+              if (asahotak.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://zacros.herokuapp.com/games/asahotak`)
+              jawaban = get_result.answer
+              kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+              pertanyaan = get_result.answer
+              dha.sendMessage(from, '*+* ```Asah Otak```\n\n• *soal* :'+pertanyaan+'\n• *kisi²* :'+kisi_kisi, text, { quoted: mek}).then(() => {
+              asahotak[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/asahotak.json", JSON.stringify(asahotak))
+})
+              await sleep(30000)
+              if (asahotak.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete asahotak[sender.split('@')[0]]
+              fs.writeFileSync("./database/asahotak.json", JSON.stringify(asahotak))
+}
+              break
+case 'susunkata':
+if (!isGroup) return reply(mess.only.group);
+              if (susunkata.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://zacros.herokuapp.com/games/susunkata`)
+              jawaban = get_result.jawaban
+              pertanyaan = get_result.pertanyaan
+              dha.sendMessage(from, '*+* ```Susun Kata```\n\n• *Soal* :'+pertanyaan+'\n• *Waktu :* 30s', text, { quoted: mek}).then(() => {
+              susunkata[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/susunkata.json", JSON.stringify(susunkata))
+})
+              await sleep(30000)
+              if (susunkata.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete susunkata[sender.split('@')[0]]
+              fs.writeFileSync("./database/susunkata.json", JSON.stringify(susunkata))
+}
+              break
+case 'tebaklirik':
+if (!isGroup) return reply(mess.only.group);
+              if (tebaklirik.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://api-yogipw.herokuapp.com/api/kuis/tebaklirik`)
+              jawaban = get_result.answer
+              kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+              pertanyaan = get_result.question
+              dha.sendMessage(from, '*+* ```Tebak Lirik```\n\n• *Soal* :'+pertanyaan+'\n• *Kisi²* :'+kisi_kisi, text, { quoted: mek}).then(() => {
+              tebaklirik[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/tebaklirik.json", JSON.stringify(tebaklirik))
+})
+              await sleep(30000)
+              if (tebaklirik.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete tebaklirik[sender.split('@')[0]]
+              fs.writeFileSync("./database/tebaklirik.json", JSON.stringify(tebaklirik))
+}
+              break
+      case 'tebakjenaka':
+      if (!isGroup) return reply(mess.only.group);
+              if (tebakjenaka.hasOwnProperty(sender.split('@')[0])) return reply("Masih ada soal yg belum terjawab")
+              get_result = await fetchJson(`https://api-yogipw.herokuapp.com/api/kuis/tebakjenaka`)
+              jawaban = get_result.jawaban
+              kisi_kisi = jawaban.replace(/[b|c|d|f|g|h|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z]/gi, '_')
+              pertanyaan = get_result.pertanyaan
+              dha.sendMessage(from, '*+* ```Tebak Jenaka```\n\n• *Soal* :'+pertanyaan+'\n• *Kisi²* :'+kisi_kisi, text, { quoted: mek}).then(() => {
+              tebakjenaka[sender.split('@')[0]] = jawaban.toLowerCase()
+              fs.writeFileSync("./database/tebakjenaka.json", JSON.stringify(tebakjenaka))
+})
+              await sleep(30000)
+              if (tebakjenaka.hasOwnProperty(sender.split('@')[0])) {
+              console.log(color("Jawaban: " + jawaban))
+              reply("Jawaban: " + jawaban)
+              delete tebakjenaka[sender.split('@')[0]]
+              fs.writeFileSync("./database/tebakjenaka.json", JSON.stringify(tebakjenaka))
 }
               break
               case 'trigger':
@@ -6976,7 +7058,7 @@ break
 					reply('Gunakan foto!')
 					}
 					break 
-					case 'igstalk2':
+					case 'igstalk':
 					if (!isGroup) return reply(mess.only.group);
 try{
 if (!q) return reply('Usernamenya?')
@@ -7082,10 +7164,40 @@ if (!isGroup) return reply(mess.only.group);
 						anu = []
 						anu.push(mentioned[i])
                     }
-					kurr.groupCreate(argz[0], anu)
+					dha.groupCreate(argz[0], anu)
 					reply(`Sukses membuat grup ${argz[0]}`)
                 }
 				break
+case 'fb': case 'facebook':{
+	if (!isGroup) return reply(mess.only.group);
+if (!q) return reply(`Kirim perintah *${prefix}fb* url`)
+reply(mess.wait)
+fbdl(q)
+.then((res) => {
+sendMediaURL(from, res.result.links[0].url)
+})
+.catch((err) => {
+sendMess(ownerNumber, 'FB Error : ' + err)
+console.log(color('[FB]', 'red'), err)
+reply(mess.error.api)
+})
+}
+break
+case 'antidelete':
+if (!isOwner && !mek.key.fromMe) return reply(mess.only.owner)
+if (args.length < 1) return reply('Pilih on atau off')
+if (args[0] === "on") {
+if(antidel)return reply('Sudah diaktifkan sebelumnya!')
+antidel = true
+reply(`Succes mengaktifkan antidelete`)
+} else if (args[0] === "off") {
+if(!antidel)return reply('Sudah di NonAktifkan sebelumnya!')
+antidel = false
+reply(`Succes mematikan antidelete`)
+} else {
+reply(`Pilih on atau off`)
+}
+break
 
 
 default:
@@ -7138,9 +7250,74 @@ if (tebakgambar.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
                 jawaban = caklontong[sender.split('@')[0]]
                 if (budy.toLowerCase() == jawaban) {
                 	var htgmi = randomNomor(100)
-                    reply(`*_🎮 Caklontong  🎮_*\n\n** *Jawaban Benar🎉*\n** *Mendapatkan* : _Rp ${htgmi} 💰_\n\nIngin bermain lagi? kirim *${prefix}caklontong*`)
+                    reply(`*_🎮 Caklontong  🎮_*\n\n*Jawaban Benar🎉*\nIngin bermain lagi? kirim *${prefix}caklontong*`)
                     delete caklontong[sender.split('@')[0]]
                     fs.writeFileSync("./database/caklontong.json", JSON.stringify(caklontong))
+                }
+            }
+            
+            if (tebakimia.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = tebakimia[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var htgmcc = randomNomor(100)
+                    await reply(`*_🎮 Tebak Kimia 🎮_*\n\n*Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}tebakkimia*`)
+                    delete tebakimia[sender.split('@')[0]]
+                    fs.writeFileSync("./database/tebakimia.json", JSON.stringify(tebakimia))
+                }
+            }
+            
+            if (tebakbendera.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = tebakbendera[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var html = randomNomor(100)
+                    await reply(`*_🎮 Tebak Bendera  🎮_*\n\n*Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}tebakbendera*`)
+                    delete tebakbendera[sender.split('@')[0]]
+                    fs.writeFileSync("./database/tebakbendera.json", JSON.stringify(tebakbendera))
+                }
+            }
+            
+            if (asahotak.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = asahotak[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var htgm = randomNomor(100)
+                    await reply(`*_🎮 Asah Otak  🎮_*\n\n*•* *Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}asahotak*`)
+                    delete asahotak[sender.split('@')[0]]
+                    fs.writeFileSync("./database/asahotak.json", JSON.stringify(asahotak))
+                }
+            }
+            
+            if (susunkata.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = susunkata[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var htmp = randomNomor(100)
+                    await reply(`*_🎮 Susun Kata  🎮_*\n\n*•* *Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}susunkata*`)
+                    delete susunkata[sender.split('@')[0]]
+                    fs.writeFileSync("./database/susunkata.json", JSON.stringify(susunkata))
+                }
+            }
+            
+          if (tebakata.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = tebakata[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var htmu = randomNomor(100)
+                    await reply(`*_🎮 Tebak Kata  🎮_*\n\n*•* *Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}tebakkata*`)
+                    delete tebakata[sender.split('@')[0]]
+                    fs.writeFileSync("./database/tebakata.json", JSON.stringify(tebakata))
+                }
+            }
+            if (tebaklirik.hasOwnProperty(sender.split('@')[0]) && !isCmd) {
+                kuis = true
+                jawaban = tebaklirik[sender.split('@')[0]]
+                if (budy.toLowerCase() == jawaban) {
+                	var htgmii = randomNomor(100)
+                    await reply(`*_🎮 Tebak Lirik 🎮_*\n\n*•* *Jawaban Benar🎉*\n\nIngin bermain lagi? kirim *${prefix}tebaklirik*`)
+                    delete tebaklirik[sender.split('@')[0]]
+                    fs.writeFileSync("./database/tebaklirik.json", JSON.stringify(tebaklirik))
                 }
             }
 
