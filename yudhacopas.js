@@ -4,7 +4,6 @@ const fs = require("fs-extra")
 const figlet = require('figlet')
 const { uncache, nocache } = require('./lib/loader')
 const setting = JSON.parse(fs.readFileSync('./setting.json'))
-const {  location } = MessageType
 const fetch = require("node-fetch");
 const welcome = require('./message/group')
 baterai = 'unknown'
@@ -172,14 +171,16 @@ console.log(`- [ Group Setting Change ] - In ${metdata.subject}`)
 })
 
   //
-   antidel = true
    dha.on('message-delete', async (m) => {
    if (m.key.remoteJid == 'status@broadcast') return
-   if (!m.key.fromMe && m.key.fromMe) return
-   if (antidel === false) return
+   if (!m.key.fromMe) {
    m.message = (Object.keys(m.message)[0] === 'ephemeralMessage') ? m.message.ephemeralMessage.message : m.message
    const jam = moment.tz('Asia/Jakarta').format('HH:mm:ss')
    let d = new Date
+   let c = dha.chats.get(m.key.remoteJid)
+   let a = c.messages.dict[`${m.key.id}|${m.key.fromMe ? 1 : 0}`]
+   let co3ntent = dha.generateForwardMessageContent(a, false)
+   let c3type = Object.keys(co3ntent)[0]
    let locale = 'id'
    let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
    let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
@@ -189,16 +190,14 @@ console.log(`- [ Group Setting Change ] - In ${metdata.subject}`)
    month: 'long',
    year: 'numeric'
    })
-   const type = Object.keys(m.message)[0]
-   dha.sendMessage(m.key.remoteJid, `━━━━⬣  𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀  ⬣━━━━
-
-    *Nama  : @${m.participant.split("@")[0]}*
-    *Jam  : ${jam} ${week} ${calender}*
-    *Type  : ${type}*
-
-   ━━━━⬣  𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀  ⬣━━━━`, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
    dha.copyNForward(m.key.remoteJid, m.message)
-     })
+   dha.sendMessage(m.key.remoteJid, `\`\`\`Anti Delete\`\`\`
+
+    \`\`\`Nama : @${m.participant.split("@")[0]}\`\`\`
+    \`\`\`Tipe : ${c3type}\`\`\`
+    \`\`\`Tanggal : ${jam} - ${week} ${weton} - ${calender}\`\`\``, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
+         }
+      })
 
 
 	// Baterai
