@@ -1,4 +1,4 @@
-const { WAConnection, Browsers, MessageType, Presence, Mimetype, GroupSettingChange, } = require('@adiwajshing/baileys')
+const { WAConnection, Browsers, MessageType, Presence, Mimetype, GroupSettingChange, } = require('./node_modules/@adiwajshing/baileys')
 const { color, bgcolor } = require('./lib/color')
 const fs = require("fs-extra")
 const figlet = require('figlet')
@@ -171,33 +171,6 @@ console.log(`- [ Group Setting Change ] - In ${metdata.subject}`)
 })
 
   //
-   dha.on('message-delete', async (m) => {
-   if (m.key.remoteJid == 'status@broadcast') return
-   if (!m.key.fromMe) {
-   m.message = (Object.keys(m.message)[0] === 'ephemeralMessage') ? m.message.ephemeralMessage.message : m.message
-   const jam = moment.tz('Asia/Jakarta').format('HH:mm:ss')
-   let d = new Date
-   let c = dha.chats.get(m.key.remoteJid)
-   let a = c.messages.dict[`${m.key.id}|${m.key.fromMe ? 1 : 0}`]
-   let co3ntent = dha.generateForwardMessageContent(a, false)
-   let c3type = Object.keys(co3ntent)[0]
-   let locale = 'id'
-   let gmt = new Date(0).getTime() - new Date('1 Januari 2021').getTime()
-   let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
-   let week = d.toLocaleDateString(locale, { weekday: 'long' })
-   let calender = d.toLocaleDateString(locale, {
-   day: 'numeric',
-   month: 'long',
-   year: 'numeric'
-   })
-   dha.copyNForward(m.key.remoteJid, m.message)
-   dha.sendMessage(m.key.remoteJid, `\`\`\`Anti Delete\`\`\`
-
-    \`\`\`Nama : @${m.participant.split("@")[0]}\`\`\`
-    \`\`\`Tipe : ${c3type}\`\`\`
-    \`\`\`Tanggal : ${jam} - ${week} ${weton} - ${calender}\`\`\``, MessageType.text, {quoted: m.message, contextInfo: {"mentionedJid": [m.participant]}})
-         }
-      })
 
 
 	// Baterai
